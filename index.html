@@ -111,7 +111,8 @@
       margin-bottom: 20px;
     }
 
-    .settings-popup .volume-slider {
+    .settings-popup .volume-slider,
+    .settings-popup .font-size-slider {
       width: 100%;
     }
   </style>
@@ -148,6 +149,12 @@
     <label for="volume-slider">مستوى الصوت:</label>
     <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50">
     <span id="volume-value">50%</span>
+    
+    <h3>إعدادات حجم الخط</h3>
+    <label for="font-size-slider">حجم الخط:</label>
+    <input type="range" id="font-size-slider" class="font-size-slider" min="12" max="36" value="16">
+    <span id="font-size-value">16px</span>
+
     <button onclick="closeSettings()">إغلاق</button>
   </div>
 
@@ -209,6 +216,15 @@
 
     volumeSlider.addEventListener('input', function() {
       volumeValue.textContent = `${volumeSlider.value}%`;
+    });
+
+    // تحديث حجم الخط عند تغيير شريط التمرير
+    const fontSizeSlider = document.getElementById('font-size-slider');
+    const fontSizeValue = document.getElementById('font-size-value');
+
+    fontSizeSlider.addEventListener('input', function() {
+      fontSizeValue.textContent = `${fontSizeSlider.value}px`;
+      document.body.style.fontSize = `${fontSizeSlider.value}px`;
     });
   </script>
 </body>
