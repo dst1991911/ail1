@@ -32,6 +32,7 @@
       font-size: 3rem;
       margin-bottom: 30px;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+      transition: font-size 0.3s ease;
     }
 
     button {
@@ -45,7 +46,7 @@
       font-weight: bold;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, font-size 0.3s ease;
     }
 
     button:hover {
@@ -160,17 +161,10 @@
 
   <!-- نافذة الإعدادات -->
   <div id="settings-popup" class="settings-popup">
-    <h3>إعدادات الصوت</h3>
-    <label for="volume-slider">مستوى الصوت:</label>
-    <input type="range" id="volume-slider" min="0" max="100" value="50">
-    <span id="volume-value">50%</span>
-
-    <div class="slider-container">
-      <h3>إعدادات تكبير الواجهة</h3>
-      <label for="scale-slider">حجم الواجهة:</label>
-      <input type="range" id="scale-slider" class="scale-slider" min="0.5" max="2" step="0.1" value="1">
-      <span id="scale-value" class="scale-value">100%</span>
-    </div>
+    <h3>إعدادات تغيير حجم الخط</h3>
+    <label for="font-size-slider">حجم الخط:</label>
+    <input type="range" id="font-size-slider" min="10" max="50" value="24">
+    <span id="font-size-value">24px</span>
 
     <button onclick="closeSettings()">إغلاق</button>
   </div>
@@ -227,23 +221,18 @@
       document.getElementById('settings-popup').style.display = 'none';
     }
 
-    // تحديث مستوى الصوت
-    const volumeSlider = document.getElementById('volume-slider');
-    const volumeValue = document.getElementById('volume-value');
+    // تحديث حجم الخط
+    const fontSizeSlider = document.getElementById('font-size-slider');
+    const fontSizeValue = document.getElementById('font-size-value');
 
-    volumeSlider.addEventListener('input', function() {
-      volumeValue.textContent = `${volumeSlider.value}%`;
-    });
+    fontSizeSlider.addEventListener('input', function() {
+      const fontSize = fontSizeSlider.value;
+      fontSizeValue.textContent = `${fontSize}px`;
 
-    // تحديث تكبير الواجهة عند تغيير شريط التمرير
-    const scaleSlider = document.getElementById('scale-slider');
-    const scaleValue = document.getElementById('scale-value');
-
-    scaleSlider.addEventListener('input', function() {
-      const scale = scaleSlider.value;
-      scaleValue.textContent = `${(scale * 100).toFixed(0)}%`;
-      document.body.style.transform = `scale(${scale})`; // تكبير/تصغير الصفحة
-      document.body.style.transformOrigin = 'top left'; // لمنع التمركز عند التكبير
+      // تحديث حجم الخط في جميع العناصر النصية
+      document.querySelectorAll('h1, h2, button').forEach(element => {
+        element.style.fontSize = `${fontSize}px`;
+      });
     });
   </script>
 </body>
