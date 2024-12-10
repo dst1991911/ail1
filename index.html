@@ -9,9 +9,10 @@
     body {
       margin: 0;
       font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #4b6cb7, #182848); /* تغيير الخلفية */
+      background: linear-gradient(135deg, #4b6cb7, #182848);
       color: #fff;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
 
     .screen {
@@ -111,15 +112,24 @@
       margin-bottom: 20px;
     }
 
-    .settings-popup .volume-slider,
-    .settings-popup .font-size-slider,
-    .settings-popup .scale-slider {
+    .settings-popup .slider-container {
       width: 100%;
+      margin-top: 20px;
+    }
+
+    .slider-container label {
+      display: block;
+      margin-bottom: 10px;
     }
 
     .scale-slider {
-      margin-top: 20px;
+      width: 100%;
     }
+
+    .scale-value {
+      margin-top: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -152,13 +162,15 @@
   <div id="settings-popup" class="settings-popup">
     <h3>إعدادات الصوت</h3>
     <label for="volume-slider">مستوى الصوت:</label>
-    <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50">
+    <input type="range" id="volume-slider" min="0" max="100" value="50">
     <span id="volume-value">50%</span>
-    
-    <h3>إعدادات تكبير الواجهة</h3>
-    <label for="scale-slider">حجم الواجهة:</label>
-    <input type="range" id="scale-slider" class="scale-slider" min="0.5" max="2" step="0.1" value="1">
-    <span id="scale-value">100%</span>
+
+    <div class="slider-container">
+      <h3>إعدادات تكبير الواجهة</h3>
+      <label for="scale-slider">حجم الواجهة:</label>
+      <input type="range" id="scale-slider" class="scale-slider" min="0.5" max="2" step="0.1" value="1">
+      <span id="scale-value" class="scale-value">100%</span>
+    </div>
 
     <button onclick="closeSettings()">إغلاق</button>
   </div>
@@ -215,7 +227,7 @@
       document.getElementById('settings-popup').style.display = 'none';
     }
 
-    // تحديث قيمة مستوى الصوت عند تغيير الشريط
+    // تحديث مستوى الصوت
     const volumeSlider = document.getElementById('volume-slider');
     const volumeValue = document.getElementById('volume-value');
 
@@ -230,7 +242,7 @@
     scaleSlider.addEventListener('input', function() {
       const scale = scaleSlider.value;
       scaleValue.textContent = `${(scale * 100).toFixed(0)}%`;
-      document.body.style.transform = `scale(${scale})`;
+      document.body.style.transform = `scale(${scale})`; // تكبير/تصغير الصفحة
       document.body.style.transformOrigin = 'top left'; // لمنع التمركز عند التكبير
     });
   </script>
