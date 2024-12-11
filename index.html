@@ -12,7 +12,7 @@
       background: linear-gradient(135deg, #4b6cb7, #182848);
       color: #fff;
       overflow: hidden;
-      font-size: 1rem; /* حجم الخط الأساسي */
+      font-size: 1rem;
       transition: all 0.3s ease;
     }
 
@@ -30,7 +30,7 @@
     }
 
     h1, h2 {
-      font-size: 2rem; /* الحجم الافتراضي */
+      font-size: 2rem;
       margin-bottom: 30px;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
       transition: font-size 0.3s ease;
@@ -77,24 +77,19 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
-    #buttons-container button {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    #disable-admin-btn {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      padding: 15px;
+      background: #ff7e5f;
+      color: #fff;
+      border-radius: 30px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: none; /* زر إيقاف وضع المشرف سيكون مخفيًا في البداية */
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .screen {
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    /* نافذة الإعدادات */
     .settings-popup {
       position: fixed;
       top: 50%;
@@ -114,34 +109,112 @@
       margin-bottom: 20px;
     }
 
-    .settings-popup .slider-container {
+    .admin-section {
+      margin-top: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .admin-section input {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .admin-section button {
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+
+    .user-table {
       width: 100%;
       margin-top: 20px;
+      border-collapse: collapse;
     }
 
-    .slider-container label {
-      display: block;
-      margin-bottom: 10px;
+    .user-table th, .user-table td {
+      padding: 10px;
+      border: 1px solid #fff;
+      text-align: center;
     }
 
-    .scale-slider {
-      width: 100%;
+    .user-table th {
+      background-color: #444;
     }
 
-    .scale-value {
-      margin-top: 10px;
+    .user-table td {
+      background-color: #222;
     }
 
+    .action-btn {
+      padding: 8px 15px;
+      border: none;
+      background-color: #ff7e5f;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .action-btn:hover {
+      background-color: #feb47b;
+    }
+
+    /* إضافة تصميم الرسالة */
+    .message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #28a745;
+      color: white;
+      border-radius: 10px;
+      font-size: 1.25rem;
+      display: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: slideIn 0.5s ease-out, fadeOut 2.5s 2s ease-out;
+    }
+
+    .message.error {
+      background-color: #dc3545;
+    }
+
+    .message.admin-disabled {
+      background-color: #ff7e5f;
+    }
+
+    /* الأنيميشن لظهور الرسالة */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    /* الأنيميشن لاختفاء الرسالة بعد فترة */
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- الواجهة الأولى -->
   <div id="welcome-screen" class="screen">
     <h1>مرحباً بك</h1>
     <button onclick="showMenu()">ابدأ</button>
   </div>
 
-  <!-- الواجهة الثانية -->
   <div id="menu-screen" class="screen hidden">
     <h2>اختر مرحلتك</h2>
     <button onclick="showSubMenu('الأول')"> الأول</button>
@@ -150,42 +223,47 @@
     <button onclick="showWelcome()">رجوع</button>
   </div>
 
-  <!-- الواجهة الثالثة -->
   <div id="details-screen" class="screen hidden">
     <h2 id="section-title">تفاصيل القسم</h2>
     <div id="buttons-container"></div>
     <button onclick="showMenu()">رجوع</button>
   </div>
 
-  <!-- زر الإعدادات -->
   <div id="settings-btn" onclick="showSettings()">⚙️</div>
 
-  <!-- نافذة الإعدادات -->
+  <div id="disable-admin-btn" onclick="disableAdminMode()">إيقاف وضع المشرف</div>
+
   <div id="settings-popup" class="settings-popup">
     <h3>إعدادات تغيير حجم الخط</h3>
     <label for="font-size-slider">حجم الخط:</label>
     <input type="range" id="font-size-slider" min="10" max="50" value="24">
     <span id="font-size-value">24px</span>
 
+    <div class="admin-section">
+      <h3>فتح وضع المشرف</h3>
+      <input type="password" id="admin-code" placeholder="أدخل الرمز السري">
+      <button onclick="checkAdminCode()">تأكيد</button>
+    </div>
+
     <button onclick="closeSettings()">إغلاق</button>
   </div>
 
+  <!-- رسالة عند إدخال الرمز -->
+  <div id="message" class="message"></div>
+
   <script>
-    // لإظهار الواجهة الأولى
     function showWelcome() {
       document.getElementById('welcome-screen').classList.remove('hidden');
       document.getElementById('menu-screen').classList.add('hidden');
       document.getElementById('details-screen').classList.add('hidden');
     }
 
-    // لإظهار الواجهة الثانية (القائمة)
     function showMenu() {
       document.getElementById('welcome-screen').classList.add('hidden');
       document.getElementById('menu-screen').classList.remove('hidden');
       document.getElementById('details-screen').classList.add('hidden');
     }
 
-    // لإظهار القائمة الفرعية
     function showSubMenu(section) {
       const buttonsContainer = document.getElementById('buttons-container');
       const sectionTitle = document.getElementById('section-title');
@@ -212,17 +290,14 @@
       document.getElementById('details-screen').classList.remove('hidden');
     }
 
-    // لإظهار نافذة الإعدادات
     function showSettings() {
       document.getElementById('settings-popup').style.display = 'flex';
     }
 
-    // لإغلاق نافذة الإعدادات
     function closeSettings() {
       document.getElementById('settings-popup').style.display = 'none';
     }
 
-    // تحديث حجم الخط
     const fontSizeSlider = document.getElementById('font-size-slider');
     const fontSizeValue = document.getElementById('font-size-value');
 
@@ -230,14 +305,47 @@
       const fontSize = fontSizeSlider.value;
       fontSizeValue.textContent = `${fontSize}px`;
 
-      // تحديث حجم الخط في جميع العناصر النصية
       document.querySelectorAll('h1, h2, button').forEach(element => {
         element.style.fontSize = `${fontSize}px`;
       });
 
-      // تعديل حجم الخط الأساسي للجسم بحيث يتم تغيير النصوص في كافة العناصر
       document.body.style.fontSize = `${fontSize / 24}rem`;
     });
+
+    function checkAdminCode() {
+      const adminCode = document.getElementById('admin-code').value;
+      const correctCode = '1234';
+
+      const message = document.getElementById('message');
+      
+      if (adminCode === correctCode) {
+        message.textContent = 'الرمز صحيح';
+        message.classList.remove('error');
+        message.style.display = 'block';
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 3000);
+        document.getElementById('disable-admin-btn').style.display = 'block'; // عرض زر إيقاف وضع المشرف
+      } else {
+        message.textContent = 'الرمز خاطئ';
+        message.classList.add('error');
+        message.style.display = 'block';
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    function disableAdminMode() {
+      document.getElementById('disable-admin-btn').style.display = 'none'; // إخفاء زر إيقاف وضع المشرف
+      const message = document.getElementById('message');
+      message.textContent = 'تم إيقاف وضع المشرف';
+      message.classList.add('admin-disabled');
+      message.style.display = 'block';
+      setTimeout(() => {
+        message.style.display = 'none';
+      }, 3000);
+    }
   </script>
 </body>
 </html>
