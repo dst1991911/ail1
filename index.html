@@ -207,6 +207,19 @@
         opacity: 0;
       }
     }
+
+    /* إزالة المربع الأصفر واستبداله برسالة في نافذة الإعدادات */
+    .development-message {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: transparent;
+      color: #ff9800; /* اللون البرتقالي المميز للنص */
+      font-size: 1.5rem; /* جعل النص أكبر قليلاً */
+      text-align: center;
+      box-shadow: none;
+      font-weight: bold;
+      animation: slideIn 0.5s ease-out;
+    }
   </style>
 </head>
 <body>
@@ -243,6 +256,11 @@
       <h3>فتح وضع المشرف</h3>
       <input type="password" id="admin-code" placeholder="أدخل الرمز السري">
       <button onclick="checkAdminCode()">تأكيد</button>
+    </div>
+
+    <!-- رسالة البرنامج قيد التطوير بدون المربع الأصفر -->
+    <div class="development-message">
+      البرنامج قيد التطوير، شكراً لصبركم
     </div>
 
     <button onclick="closeSettings()">إغلاق</button>
@@ -315,10 +333,17 @@
     function checkAdminCode() {
       const adminCode = document.getElementById('admin-code').value;
       const correctCode = '1234';
-
       const message = document.getElementById('message');
       
-      if (adminCode === correctCode) {
+      // التحقق إذا كان الحقل فارغًا
+      if (adminCode === '') {
+        message.textContent = 'لا يوجد شيء';
+        message.classList.add('error');
+        message.style.display = 'block';
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 3000);
+      } else if (adminCode === correctCode) {
         message.textContent = 'الرمز صحيح';
         message.classList.remove('error');
         message.style.display = 'block';
