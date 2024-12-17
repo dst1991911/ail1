@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>انكليزي مع د.علي الحق</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* CSS هنا */
+  </style>
+</head>
+<body>
+  <div id="welcome-screen" class="screen">
+    <h1>مرحباً بك</h1>
+    <button onclick="showMenu()">ابدأ</button>
+  </div>
+
+  <div id="menu-screen" class="screen hidden">
+    <h2>اختر مرحلتك</h2>
+    <button onclick="showSubMenu('الأول')"> الأول</button>
+    <button onclick="showSubMenu(' الثاني')"> الثاني</button>
+    <button onclick="showSubMenu(' الثالث')"> الثالث</button>
+    <button onclick="showWelcome()">رجوع</button>
+  </div>
+
+  <div id="details-screen" class="screen hidden">
+    <h2 id="section-title">تفاصيل القسم</h2>
+    <div id="buttons-container"></div>
+    <button onclick="showMenu()">رجوع</button>
+  </div>
+
+  <script>
+    // JavaScript هنا
+  </script>
+</body>
+</html>
