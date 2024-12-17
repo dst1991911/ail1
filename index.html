@@ -6,10 +6,70 @@
   <title>انكليزي مع د.علي الحق</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* CSS هنا */
+    /* CSS */
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: #fff;
+      overflow: hidden;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1, h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    button {
+      padding: 15px 40px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #buttons-container button {
+      flex: 1 0 30%;
+      max-width: 120px;
+    }
   </style>
 </head>
 <body>
+  <!-- HTML -->
   <div id="welcome-screen" class="screen">
     <h1>مرحباً بك</h1>
     <button onclick="showMenu()">ابدأ</button>
@@ -17,9 +77,9 @@
 
   <div id="menu-screen" class="screen hidden">
     <h2>اختر مرحلتك</h2>
-    <button onclick="showSubMenu('الأول')"> الأول</button>
-    <button onclick="showSubMenu(' الثاني')"> الثاني</button>
-    <button onclick="showSubMenu(' الثالث')"> الثالث</button>
+    <button onclick="showSubMenu('الأول')">الأول</button>
+    <button onclick="showSubMenu('الثاني')">الثاني</button>
+    <button onclick="showSubMenu('الثالث')">الثالث</button>
     <button onclick="showWelcome()">رجوع</button>
   </div>
 
@@ -30,7 +90,56 @@
   </div>
 
   <script>
-    // JavaScript هنا
+    // JavaScript
+    function showWelcome() {
+      document.getElementById('welcome-screen').classList.remove('hidden');
+      document.getElementById('menu-screen').classList.add('hidden');
+      document.getElementById('details-screen').classList.add('hidden');
+    }
+
+    function showMenu() {
+      document.getElementById('welcome-screen').classList.add('hidden');
+      document.getElementById('menu-screen').classList.remove('hidden');
+      document.getElementById('details-screen').classList.add('hidden');
+    }
+
+    function showSubMenu(section) {
+      const buttonsContainer = document.getElementById('buttons-container');
+      const sectionTitle = document.getElementById('section-title');
+
+      buttonsContainer.innerHTML = '';
+      sectionTitle.textContent = section;
+
+      const audioBtn = document.createElement('button');
+      audioBtn.textContent = 'الصوتيات';
+      audioBtn.onclick = () => alert(`تشغيل صوتيات من ${section}`);
+      buttonsContainer.appendChild(audioBtn);
+
+      const videoBtn = document.createElement('button');
+      videoBtn.textContent = 'الفيديوهات';
+      videoBtn.onclick = () => showVideoButtons(section);
+      buttonsContainer.appendChild(videoBtn);
+
+      const pdfBtn = document.createElement('button');
+      pdfBtn.textContent = 'ملفات PDF';
+      pdfBtn.onclick = () => alert(`فتح ملفات PDF من ${section}`);
+      buttonsContainer.appendChild(pdfBtn);
+
+      document.getElementById('menu-screen').classList.add('hidden');
+      document.getElementById('details-screen').classList.remove('hidden');
+    }
+
+    function showVideoButtons(section) {
+      const buttonsContainer = document.getElementById('buttons-container');
+      buttonsContainer.innerHTML = ''; // مسح الأزرار الحالية
+
+      for (let i = 1; i <= 10; i++) {
+        const videoButton = document.createElement('button');
+        videoButton.textContent = `الفيديو ${i}`;
+        videoButton.onclick = () => alert(`تشغيل فيديو ${i} من ${section}`);
+        buttonsContainer.appendChild(videoButton);
+      }
+    }
   </script>
 </body>
 </html>
