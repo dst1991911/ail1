@@ -38,4 +38,12 @@ function showSubMenu(section) {
 
 function showVideoButtons(section) {
   const buttonsContainer = document.getElementById('buttons-container');
-  buttonsContainer.innerHTML = ''; //
+  buttonsContainer.innerHTML = ''; // مسح الأزرار الحالية
+
+  for (let i = 1; i <= 10; i++) {
+    const videoButton = document.createElement('button');
+    videoButton.textContent = `الفيديو ${i}`;
+    videoButton.onclick = () => alert(`تشغيل فيديو ${i} من ${section}`);
+    buttonsContainer.appendChild(videoButton);
+  }
+}
